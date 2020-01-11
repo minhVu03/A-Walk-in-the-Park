@@ -1,0 +1,154 @@
+# depslib dependency file v1.0
+1576250971 source:d:\minh compsci\a walk in the park ver2\backgrounds.cpp
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+	"declarations.h"
+
+1576255895 d:\minh compsci\a walk in the park ver2\declarations.h
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+
+1576255881 source:d:\minh compsci\a walk in the park ver2\main.cpp
+	"declarations.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+
+1576124226 source:d:\minh compsci\a walk in the park ver2\allegro.cpp
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+
+1576251290 source:d:\minh compsci\a walk in the park ver2\characters.cpp
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+	"declarations.h"
+
+1576256312 source:d:\minh compsci\a walk in the park ver2\obstacles.cpp
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+	"declarations.h"
+
+1576448552 source:c:\users\nvcob\onedrive\documents\github\isc-summative\a walk in the park ver2\backgrounds.cpp
+	"declarations.h"
+
+1576448693 c:\users\nvcob\onedrive\documents\github\isc-summative\a walk in the park ver2\declarations.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<iostream>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+
+1576448506 source:c:\users\nvcob\onedrive\documents\github\isc-summative\a walk in the park ver2\main.cpp
+	"declarations.h"
+
+1576448148 source:c:\users\nvcob\onedrive\documents\github\isc-summative\a walk in the park ver2\obstacles.cpp
+	"declarations.h"
+
+1576447997 source:c:\users\nvcob\onedrive\documents\github\isc-summative\a walk in the park ver2\allegro.cpp
+	"declarations.h"
+
+1576448904 source:c:\users\nvcob\onedrive\documents\github\isc-summative\a walk in the park ver2\characters.cpp
+	"declarations.h"
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\allegro.cpp
+	"declarations.h"
+
+1576463499 d:\minh compsci\github\isc-summative\a walk in the park on github\declarations.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\backgrounds.cpp
+	"declarations.h"
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\characters.cpp
+	"declarations.h"
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\main.cpp
+	"declarations.h"
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\obstacles.cpp
+	"declarations.h"
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park\allegro.cpp
+	"declarations.h"
+
+1576851925 d:\minh compsci\github\isc-summative\a walk in the park\declarations.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_primitives.h>
+	<allegro5/allegro_font.h>
+	<allegro5/allegro_ttf.h>
+
+1576699228 source:d:\minh compsci\github\isc-summative\a walk in the park\backgrounds.cpp
+	"declarations.h"
+
+1576699043 source:d:\minh compsci\github\isc-summative\a walk in the park\characters.cpp
+	"declarations.h"
+
+1576851958 source:d:\minh compsci\github\isc-summative\a walk in the park\main.cpp
+	"declarations.h"
+
+1576852096 source:d:\minh compsci\github\isc-summative\a walk in the park\obstacles.cpp
+	"declarations.h"
+
+1576851937 source:d:\minh compsci\github\isc-summative\a walk in the park\collision.cpp
+	"declarations.h"
+
+1578320264 source:d:\minh compsci\a walk in the park\collision.cpp
+	"declarations.h"
+
+1578692918 d:\minh compsci\a walk in the park\declarations.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+	<allegro5/allegro_primitives.h>
+	<allegro5/allegro_font.h>
+	<allegro5/allegro_ttf.h>
+	<allegro5/allegro_audio.h>
+	<allegro5/allegro_acodec.h>
+
+1578692918 source:d:\minh compsci\a walk in the park\allegro.cpp
+	"declarations.h"
+
+1578587732 source:d:\minh compsci\a walk in the park\backgrounds.cpp
+	"declarations.h"
+
+1578449946 source:d:\minh compsci\a walk in the park\characters.cpp
+	"declarations.h"
+
+1578761472 source:d:\minh compsci\a walk in the park\main.cpp
+	"declarations.h"
+
+1578625306 source:d:\minh compsci\a walk in the park\obstacles.cpp
+	"declarations.h"
+
+1578707736 source:d:\minh compsci\a walk in the park\score.cpp
+	"declarations.h"
+
+1578706591 source:d:\minh compsci\a walk in the park\life.cpp
+	"declarations.h"
+
+1578583439 source:d:\minh compsci\a walk in the park\buttons.cpp
+	"declarations.h"
+
