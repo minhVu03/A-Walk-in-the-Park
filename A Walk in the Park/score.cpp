@@ -17,9 +17,10 @@ void printScore(int score, int &high){
 
     }
     snprintf(highStr, 10, "%d", high);
-    al_draw_text(normalText, FOREGROUND, 1500, 30, ALLEGRO_ALIGN_CENTRE, "Score: ");
+    al_draw_text(normalText, FOREGROUND, 1500, 30, ALLEGRO_ALIGN_CENTRE, "Distance: ");
     al_draw_text(normalText, FOREGROUND, 1700, 30, ALLEGRO_ALIGN_CENTRE, scoreStr);
-    al_draw_text(normalText, FOREGROUND, 1500, 100, ALLEGRO_ALIGN_CENTRE, "Highscore: ");
+
+    al_draw_text(normalText, FOREGROUND, 1500, 100, ALLEGRO_ALIGN_CENTRE, "Best: ");
     al_draw_text(normalText, FOREGROUND, 1710, 100, ALLEGRO_ALIGN_CENTRE, highStr);
 }
 
@@ -61,20 +62,21 @@ int storeHighscore(int score, int high){
     return 0;
 }
 
-void printFinalScore(int score, int high){
+void printFinalScore(int score, int high, bool newHighscore){
     char scoreStr[10];
     char highStr[10];
     snprintf(scoreStr, 10, "%d", score);
     snprintf(highStr, 10, "%d", high);
-    al_draw_text(font, FOREGROUND, 680, 500, ALLEGRO_ALIGN_LEFT, "Score: ");
-    al_draw_text(font, FOREGROUND, 1800/2 + 100, 500, ALLEGRO_ALIGN_LEFT, scoreStr);
+    al_draw_text(font, FOREGROUND, 640, 500, ALLEGRO_ALIGN_LEFT, "Distance: ");
+    al_draw_text(font, FOREGROUND, 1000, 500, ALLEGRO_ALIGN_LEFT, scoreStr);
 
-    al_draw_text(font, FOREGROUND, 600, 650, ALLEGRO_ALIGN_LEFT, "Highscore: ");
-    al_draw_text(font, FOREGROUND, 1800/2 + 150, 650, ALLEGRO_ALIGN_LEFT, highStr);
-}
-
-void newBestScore(bool newHighscore){
-     if(newHighscore == true){
-        al_draw_text(font, FOREGROUND, 30, 30, ALLEGRO_ALIGN_LEFT, "New Highscore!!!");
+    if (newHighscore == false){
+        al_draw_text(font, FOREGROUND, 560, 630, ALLEGRO_ALIGN_LEFT, "Best Distance: ");
+        al_draw_text(font, FOREGROUND, 1200, 630, ALLEGRO_ALIGN_LEFT, highStr);
+    }
+    if (newHighscore == true){
+        al_draw_text(font, FOREGROUND, 510, 610, ALLEGRO_ALIGN_LEFT, "New Best Distance: ");
+        al_draw_text(font, FOREGROUND, 1240, 610, ALLEGRO_ALIGN_LEFT, highStr);
     }
 }
+

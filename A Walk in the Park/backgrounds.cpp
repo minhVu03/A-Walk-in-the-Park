@@ -7,7 +7,7 @@ extern ALLEGRO_EVENT ev;
 extern ALLEGRO_FONT *font, *leavesTitle, *normalText;
 
 #define BACKGROUND al_map_rgb(255, 0, 255)
-#define FOREGROUND al_map_rgb(0, 179, 0)
+#define FOREGROUND al_map_rgb(26, 165, 35)
 
 int moveBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground){
     //draw two backgrounds connected to each other for each layer
@@ -46,21 +46,18 @@ int startGame(Backgrounds &city, Backgrounds &tree, Backgrounds &ground){
     al_draw_bitmap(tree.image, 0, 0, 0);
     al_draw_bitmap(ground.image, 0, 0, 0);
 
-    al_draw_text(font, FOREGROUND, 1800/2, (900/4), ALLEGRO_ALIGN_CENTRE, "A Walk in the Park");
+    al_draw_text(font, FOREGROUND, 1800/2 - 10, 130, ALLEGRO_ALIGN_CENTRE, "A Walk in the Park");
 
     return 0;
 }
 
-int gameOver(Backgrounds &city, Backgrounds &tree, Backgrounds &ground, int score, int high, bool newHighscore){
+int gameOver(Backgrounds &city, Backgrounds &tree, Backgrounds &ground){
     al_draw_bitmap(city.image, 0, 0, 0);
     al_draw_bitmap(tree.image, 0, 0, 0);
     al_draw_bitmap(ground.image, 0, 0, 0);
 
-    al_draw_text(font, FOREGROUND, 1800/2, (900/4), ALLEGRO_ALIGN_CENTRE, "GAME OVER");
-    al_draw_text(font, FOREGROUND, 1800/2, 300, ALLEGRO_ALIGN_CENTRE, "You did not get home safely!");
-    //Print the scores to display
-    printFinalScore(score, high);
-    newBestScore(newHighscore);
+    al_draw_text(font, FOREGROUND, 1800/2, 150, ALLEGRO_ALIGN_CENTRE, "GAME OVER");
+
     return 0;
 }
 
@@ -69,12 +66,12 @@ int gamePaused(Backgrounds &city, Backgrounds &tree, Backgrounds &ground){
     al_draw_bitmap(tree.image, 0, 0, 0);
     al_draw_bitmap(ground.image, 0, 0, 0);
 
-   al_draw_text(font, FOREGROUND, 1800/2, (900/4), ALLEGRO_ALIGN_CENTRE, "GAME PAUSED");
-   //al_rest(.01);
-   //al_draw_text(font, FOREGROUND, 1800/2, (900/2), ALLEGRO_ALIGN_CENTRE, "Do you want to continue?");
-   //al_flip_display();
-
+   al_draw_text(font, FOREGROUND, 1800/2, 130, ALLEGRO_ALIGN_CENTRE, "PAUSED");
     return 0;
+}
+
+int gameInstruction(Keys instruction, int px, int py){
+    al_draw_bitmap(instruction.image, px, py, 0);
 }
 
 

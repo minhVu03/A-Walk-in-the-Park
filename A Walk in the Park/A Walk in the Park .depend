@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\allegro.cpp
+	"declarations.h"
+
+1576464701 d:\minh compsci\github\isc-summative\a walk in the park on github\declarations.h
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_native_dialog.h>
+
+1576449329 source:d:\minh compsci\github\isc-summative\a walk in the park on github\backgrounds.cpp
+	"declarations.h"
+
+1576464701 source:d:\minh compsci\github\isc-summative\a walk in the park on github\characters.cpp
+	"declarations.h"
+
+1576464701 source:d:\minh compsci\github\isc-summative\a walk in the park on github\main.cpp
+	"declarations.h"
+
+1576465424 source:d:\minh compsci\github\isc-summative\a walk in the park on github\obstacles.cpp
+	"declarations.h"
+

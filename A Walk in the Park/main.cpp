@@ -6,7 +6,7 @@ const int SCREEN_W = 1800;      // screen width
 const int SCREEN_H = 900;       // screen height
 
 #define BACKGROUND al_map_rgb(255, 0, 255)
-#define BUTTON al_map_rgb(0, 179, 0)
+#define BUTTON al_map_rgb(26, 165, 35)
 
 ALLEGRO_DISPLAY *display;
 ALLEGRO_EVENT_QUEUE *event_queue;
@@ -14,23 +14,23 @@ ALLEGRO_TIMER *timer;
 ALLEGRO_EVENT ev;
 ALLEGRO_FONT *font, *leavesTitle, *normalText;
 
-
-
 int main(int argc, char *argv[]){
-
     //Initializing allegro
     al_init();
     al_init_primitives_addon();
     al_install_mouse();
-    al_init_image_addon(); //need this to put images into program
+    al_init_image_addon(); //put images into program
     al_init_font_addon(); // initialize the font addon
     al_init_ttf_addon();// initialize the ttf (True Type Font) addon
-    //initialize displays
+    al_install_audio();
+    al_init_acodec_addon();
+
+    //initialize display
     display = al_create_display(SCREEN_W, SCREEN_H);
     // add event queue object
     event_queue = al_create_event_queue();
-    // 1. add timer object
-	timer = al_create_timer(1.0 / FPS);    //affects speed of bunny
+    // add timer object
+	timer = al_create_timer(1.0 / FPS);
 
     //Check allegro settings
     allegroSettings();
@@ -43,25 +43,26 @@ int main(int argc, char *argv[]){
 
 
     /********************* Declare and initialize variables ******************************/
-    //ALLEGRO_SAMPLE *startSound = nullptr;
-    //ALLEGRO_SAMPLE *endSound = nullptr;
+    ALLEGRO_SAMPLE *startSound = nullptr;
+    ALLEGRO_SAMPLE *endSound = nullptr;
     ALLEGRO_SAMPLE *loopSound = nullptr;
-    //ALLEGRO_SAMPLE *hitSound = nullptr;
+    ALLEGRO_SAMPLE *hitSound = nullptr;
 
     //Obstacles
-    Obstacle fog, bag, log;
-    obstaclePosition(fog, log, bag);
+    Obstacle fog, bag[3], log;
+
     //score
     int counter = 0;
     int high = 0;
 
     //Backgrounds and character
     Backgrounds city, tree, ground;
-    Button button[3];
-    for (int i = 0; i < 3; i++){
+    Keys arrows, letters;
+
+    Button button[4];
+    for (int i = 0; i < 4; i++){
         button[i].clicked = false;
     }
-
     Character bunny;
     bunny.x = 100;
     bunny.y = 540;
@@ -71,120 +72,187 @@ int main(int argc, char *argv[]){
     int lifeNum = 3;
     int counte = 11;
 
-    bool gameOn = false;
-    bool doExit = false;
-    bool doPaused = false;
+    bool gameOn = true;
     bool newBest = false;
-    bool replay = true;                   //put everything in while loop to replay
+    int gamePhase = 1;
 
-    //Load backgrounds
+    //Load and check
+    loopSound = al_load_sample("gameLoop.wav");
+    startSound = al_load_sample("gameStart.wav");
+    endSound = al_load_sample("gameDie.wav");
+    hitSound = al_load_sample("gameHit.wav");
+    initializeSounds(startSound, endSound, loopSound, hitSound);
+
     loadBackgrounds(city, tree, ground);
     loadText();
-
-    //Load character and obstacles and allegro settings
-    imageSettings(bunny, fog, log, bag, button);
-
-    //Load heart images
+    imageSettings(bunny, fog, log, bag, arrows, letters);
+    loadButtons(button);
     initializeLives(lives);
 
     //Start the timer
  	al_start_timer(timer);
 
- 	/************************************ SOunds ***********************************/
- 	/******************************* Start menu ************************************/
- 	while (gameOn == false && doExit == false && doPaused == false){
-        //al_wait_for_event(event_queue, &ev);
-        startGame(city, tree, ground); //will turn gameOn true when player press ENTER
-        printButton(button[0], 750, 400);
-        al_draw_text(font, BUTTON, 760, 410, ALLEGRO_ALIGN_LEFT, "START");
+    //highScore(high);
 
-        if(buttonClicked(button[0]) == true || ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
-            gameOn = true;
-        }
+ 	// Loop game sound
+ 	al_play_sample(loopSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
-        printButton(button[1], 750, 550);
-        al_draw_text(font, BUTTON, 760, 560, ALLEGRO_ALIGN_LEFT, "EXIT");
-        al_flip_display();
-        if(buttonClicked(button[1]) == true){
-            doExit = true;
-        }
- 	}
- 	/******************************* Run the game **********************************/
-    highScore(high);
-    while (gameOn == true && doExit == false && doPaused == false){
-        al_wait_for_event(event_queue, &ev);
-        //al_get_next_event(event_queue, &ev);
-        //Make backgrounds move
-        moveBackgrounds(city, tree, ground);
-        //Print the score and highscore to platform
-        printScore(counter, high);
-        //Print hearts to display
-        printLives(lives, lifeNum);
-        //Add character to the game
-        character(doPaused, bunny);
-        //Variables for timing the game
-        counte++;
+ 	/********************************* Run game code ***********************************************/
 
-        //Log obstacles
-        staticObstacle(log);
-        if(isCollision(bunny, log) == true){
-            printf("Collision with log! \n");
-            counte = 0;
-        }
+    while (gameOn == true){
+        switch (gamePhase){
 
-        //Fog obstacles
-        moveObstacle(fog);
-        if(isCollision(bunny, fog) == true){
-            printf("COLLISION with fog!\n");
-            counte = 0;
-        }
-
-        //Garbage bag obstacles
-        moveObstacle(bag);
-        if(isCollision(bunny, bag) == true){
-            printf("COLLISION with bag!\n");
-            counte = 0;
-        }
-        isHit(warning, bunny, counte, lifeNum);
-        al_flip_display();
-
-        //Player loses when number of lives hits 0
-        if(lifeNum <= 0){
-            gameOn = false;
-        }
-
-        counter++;
-    }
-    /******************************** Pause the game *******************************/
-    while(doPaused == true && gameOn == true && doExit == false){
-        gamePaused(city, tree, ground);    //Use text file to store current positions of obstacles to continue game
-        //exit game when ESC is pressed
-        al_get_next_event(event_queue, &ev);
-
-        printButton(button[2], 750, 400);
-        al_draw_text(font, BUTTON, 760, 410, ALLEGRO_ALIGN_LEFT, "EXIT");
-
-        if(buttonClicked(button[2]) == true || ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
-            al_destroy_display(display);
-            printf("EXITED successfully\n");
-        }
-        al_flip_display();
-    }
-    /********************************** Game Over **********************************/
-    while(doPaused == false && doExit == false && gameOn == false){
-        compareHighscore(counter, high, newBest);
-        gameOver(city, tree, ground, counter, high, newBest);   //includes printing the final score
-        al_flip_display();
-        //exit game when ENTER is pressed
-        al_get_next_event(event_queue, &ev);
-        if(ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
-                al_destroy_display(display);
+            /******************************* Start menu ************************************/
+            case 1:
+                //al_wait_for_event(event_queue, &ev);
+                startGame(city, tree, ground);
+                printButton(button[0], 600, 280);
+                printButton(button[1], 900, 280);
+                al_flip_display();
+                //Determine positions for obstacles
+                obstaclePosition(fog, log, bag);
+                //Start game
+                if(buttonClicked(button[0]) == true || ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
+                    al_play_sample(startSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    gamePhase = 2;
+                }
+                //Exit game
+                if(buttonClicked(button[1]) == true){
+                    al_destroy_display(display);
+                    al_destroy_sample(loopSound);
+                    printf("Exited successfully\n");
+                }
+                highScore(high);
                 break;
-        }
-    }
-    al_destroy_sample(loopSound);
-    //Write the highscore to a text file
-    storeHighscore(counter, high);
+            /******************************* Run the game **********************************/
+            //highScore(high);
+            case 2:
+                al_wait_for_event(event_queue, &ev);
+                //al_get_next_event(event_queue, &ev);
+                //Make backgrounds move
+                moveBackgrounds(city, tree, ground);
 
+                //Print instructions in the first 60 seconds of the game
+                if(counter <= 100){
+                    gameInstruction(arrows, 700, 30);
+                }
+                if(counter > 100 && counter <= 300){
+                    gameInstruction(letters, 700, 30);
+                }
+
+                //Add character to the game
+                character(bunny);
+
+                //Variables for timing the game
+                counte++;
+
+                //Log obstacles
+                staticObstacle(log);
+                if(isCollision(bunny, log) == true){
+                    counte = 0;
+                }
+
+                //Fog obstacles
+                moveObstacle(fog);
+                if(isCollision(bunny, fog) == true){
+                    counte = 0;
+                }
+
+                //Garbage bag obstacles
+                moveObstacle(bag[0]);
+                if (counter > 2000){
+                    moveObstacle(bag[1]);
+                }
+                if (counter > 4000){
+                    moveObstacle(bag[2]);
+                }
+                if(isCollision(bunny, bag[0]) == true || isCollision(bunny, bag[1]) == true || isCollision(bunny, bag[2]) == true){
+                    counte = 0;
+                }
+
+                //Print the score and highscore to platform
+                printScore(counter, high);
+                //Print hearts to display
+                printLives(lives, lifeNum);
+                //Display pause button
+                printButton(button[2], 1650, 785);
+
+                isHit(warning, bunny, counte, lifeNum, hitSound);
+                al_flip_display();
+
+                //Player loses when number of lives hits 0
+                if(lifeNum <= 0){
+                    al_play_sample(endSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    gamePhase = 4;
+                }
+
+                //Score
+                counter++;
+
+                if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE || buttonClicked(button[2]) == true){
+                    gamePhase = 3;
+                }
+                break;
+            /******************************** Pause the game *********************************/
+            case 3:
+                gamePaused(city, tree, ground);
+                al_get_next_event(event_queue, &ev);
+                printButton(button[3], 480, 280);
+                printButton(button[0], 780, 280);
+                printButton(button[1], 1080, 280);
+
+                //Replay
+                if(buttonClicked(button[3]) == true){
+                    lifeNum = 3;
+                    counter = 0;
+                    bunny.x = 100;
+                    bunny.y = 540;
+                    gamePhase = 1;
+                }
+                //Continue
+                if(buttonClicked(button[0]) == true){
+                    gamePhase = 2;
+                }
+                //Exit game
+                if(buttonClicked(button[1]) == true || ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
+                    storeHighscore(counter, high);
+                    al_destroy_display(display);
+                    al_destroy_sample(loopSound);
+                    printf("Exited successfully\n");
+                }
+                al_flip_display();
+                break;
+            /********************************** Game Over **********************************/
+            case 4:
+                //Determine high score
+                compareHighscore(counter, high, newBest);
+                gameOver(city, tree, ground);   //includes printing the final score
+                //Print the scores to display
+                printFinalScore(counter, high, newBest);
+
+                printButton(button[3], 650, 280);
+                printButton(button[1], 950, 280);
+
+                al_flip_display();
+
+                al_get_next_event(event_queue, &ev);
+                //Replay
+                if(buttonClicked(button[3]) == true){
+                    lifeNum = 3;
+                    counter = 0;
+                    bunny.x = 100;
+                    bunny.y = 540;
+                    gamePhase = 1;
+                }
+                //Exit game
+                if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE || buttonClicked(button[1]) == true){
+                        storeHighscore(counter, high);
+                        al_destroy_display(display);
+                        al_destroy_sample(loopSound);
+                        printf("Exited successfully\n");
+                }
+                break;
+        } //end of switch statement
+    }
     return 0;
 }

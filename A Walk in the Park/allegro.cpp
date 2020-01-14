@@ -50,11 +50,18 @@ int allegroSettings() {
     return 0;
 }
 
-int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle &bag, Button button[]){
+int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle bag[], Keys &arrows, Keys &letters){
     //Load obstacles
     fog.image = al_load_bitmap("fogObstacle.png");
     log.image = al_load_bitmap("logObstacle.png");
-    bag.image = al_load_bitmap("bagObstacle.png");
+    for (int i = 0; i < 3; i++){
+        bag[i].image = al_load_bitmap("bagObstacle.png");
+        if (!bag[i].image) {
+       		al_show_native_message_box(display, "Error", "Error",
+    			"bagObstacle.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    		return -1;
+	}
+    }
     //Check image settings
     if (!fog.image) {
        		al_show_native_message_box(display, "Error", "Error",
@@ -64,11 +71,6 @@ int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle &
 	if (!log.image) {
        		al_show_native_message_box(display, "Error", "Error",
     			"logObstacle.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
-    		return -1;
-	}
-	if (!bag.image) {
-       		al_show_native_message_box(display, "Error", "Error",
-    			"bagObstacle.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     		return -1;
 	}
 
@@ -81,23 +83,30 @@ int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle &
     		return -1;
 	}
 
-    for(int i = 0; i < 3; i++){
-            button[i].image = al_load_bitmap("blackButton.png"); // Load our picture
-            if (!button[i].image) {
+	arrows.image = al_load_bitmap("arrows.png");
+	//Check image settings
+	if (!arrows.image) {
        		al_show_native_message_box(display, "Error", "Error",
-    			"button.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    			"arrows.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     		return -1;
 	}
-    }
+
+	letters.image = al_load_bitmap("letters.png");
+	//Check image settings
+	if (!letters.image) {
+       		al_show_native_message_box(display, "Error", "Error",
+    			"letters.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    		return -1;
+	}
 
 	return 0;
 }
 
 int loadText(){
     //Load text font
-	font = al_load_ttf_font("snowFairy.ttf", 70, 0);
+	font = al_load_ttf_font("normal text.ttf", 140, 0);
     if (!font){
-      al_show_native_message_box(display, "Error", "Error", "Could not load snow fairy title.ttf",
+      al_show_native_message_box(display, "Error", "Error", "Could not load normal text.ttf",
                                     nullptr, ALLEGRO_MESSAGEBOX_ERROR);
       return -1;
     }
@@ -152,3 +161,38 @@ int loadBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground){
     return 0;
 }
 
+int initializeSounds(ALLEGRO_SAMPLE *start, ALLEGRO_SAMPLE *endS, ALLEGRO_SAMPLE *loop, ALLEGRO_SAMPLE *hit){
+
+    al_reserve_samples(4);
+
+    //start = al_load_sample("gameStart.wav");
+    if (!start){
+    al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameStart",
+    nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    return -1;
+    }
+
+    //endS = al_load_sample("gameEnd.wav");
+    if (!endS){
+    al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameDie",
+    nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    return -1;
+    }
+
+    //loop = al_load_sample("gameLoop.wav");
+    if (!loop){
+    al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameLoop",
+    nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    return -1;
+    }
+
+    //hit = al_load_sample("gameHit.wav");
+    if (!hit){
+    al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameHit",
+    nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    return -1;
+    }
+
+
+    return 0;
+}

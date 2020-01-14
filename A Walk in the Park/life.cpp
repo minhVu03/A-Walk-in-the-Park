@@ -25,11 +25,14 @@ void printLives(Life heart[], int lifeN){
     }
 }
 
-void isHit(Danger &warning, Character &bunny, int &counte, int &lifeNum){
+void isHit(Danger &warning, Character &bunny, int &counte, int &lifeNum, ALLEGRO_SAMPLE *hit){
+    if (counte == 1){
+        al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    }
     if (counte == 10){
         lifeNum--;
     }
-    if (counte <= 10 && counte >= 0){
+    if (counte >= 0 && counte <= 10){
         printDanger(warning, bunny.x + al_get_bitmap_width(bunny.image), bunny.y + 5);
     }
 }

@@ -51,28 +51,33 @@ struct Danger{
     ALLEGRO_BITMAP *image;
     int x, y;
 };
+
+struct Keys{
+    ALLEGRO_BITMAP *image;
+};
+
 //Prototype
 //Settings and backgrounds
 int allegroSettings();
 int loadBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
 int loadText();
 int moveBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
-int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle &bag, Button button[]);
-//int initializeSounds(ALLEGRO_SAMPLE *startSound, ALLEGRO_SAMPLE *endSound, ALLEGRO_SAMPLE *loopSound);
-
+int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle bag[], Keys &arrows, Keys &letters);
+int initializeSounds(ALLEGRO_SAMPLE *start, ALLEGRO_SAMPLE *endS, ALLEGRO_SAMPLE *loop, ALLEGRO_SAMPLE *hit);
+int gameInstruction(Keys instruction, int px, int py);
 //Character
 int moveCharacter(Character &bunny); //Not being used right now
-int character(bool &doPaused, Character &character);
+int character(Character &character);
 
 //Obstacles
-void obstaclePosition(Obstacle &fog, Obstacle &log, Obstacle &bag);
+void obstaclePosition(Obstacle &fog, Obstacle &log, Obstacle bag[]);
 int moveObstacle(Obstacle &obstacle);
 int staticObstacle(Obstacle &obstacle);
 
 //Game status
 int startGame(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
 int gamePaused(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
-int gameOver(Backgrounds &city, Backgrounds &tree, Backgrounds &ground, int score, int high, bool newHighscore);
+int gameOver(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
 
 //Functions for collision detection
 void calcBoundsCharacter(Character &object);
@@ -83,17 +88,17 @@ bool isCollision(Character &a, Obstacle &b);
 //Score
 void printScore(int score, int &high);
 int highScore(int &high);
-int compareHighscore(int score, int &high, bool &newHighscore);
+int compareHighscore(int score, int &high, bool &newHigh);
 int storeHighscore(int score, int high);
-void printFinalScore(int score, int high);
-void newBestScore(bool newHighscore);
+void printFinalScore(int score, int high, bool newHighscore);
 
 //Lives
 int initializeLives(Life heart[]);
 void printLives(Life heart[], int lifeN);
-void isHit(Danger &warning, Character &bunny, int &counte, int &lifeNum);
+void isHit(Danger &warning, Character &bunny, int &counte, int &lifeNum, ALLEGRO_SAMPLE *hit);
 int printDanger(Danger &warning, int px, int py);
 
 //Buttons
+int loadButtons(Button button[]);
 int printButton(Button &button, int px, int py);
 bool buttonClicked(Button button);

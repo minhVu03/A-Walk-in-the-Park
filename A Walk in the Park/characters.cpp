@@ -7,35 +7,36 @@ extern ALLEGRO_EVENT_QUEUE *event_queue;
 extern ALLEGRO_TIMER *timer;
 extern ALLEGRO_EVENT ev;
 
-int character(bool &doPaused, Character &character){
+int character(Character &character){
     al_draw_bitmap(character.image, character.x, character.y, 0);
     al_get_next_event(event_queue, &ev);
 
     //Use keyboard to control character
          	switch(ev.keyboard.keycode) {
             	case ALLEGRO_KEY_UP:
+                case ALLEGRO_KEY_W:
             	    if(character.y > 0){
                         character.y -= 20;
             	    }
                		break;
 	            case ALLEGRO_KEY_DOWN:
+                case ALLEGRO_KEY_S:
 	                if(character.y < 540){
                         character.y += 20;
 	                }
             		break;
                 case ALLEGRO_KEY_LEFT:
+                case ALLEGRO_KEY_A:
                     if(character.x > 0){
                         character.x -= 20;
                     }
                     break;
                 case ALLEGRO_KEY_RIGHT:
+                case ALLEGRO_KEY_D:
                     if(character.x < 1800){
                         character.x += 20;
                     }
                     break;
-               	case ALLEGRO_KEY_ESCAPE:
-               		doPaused = true;
-               		break;
          	}
 
     return 0;
