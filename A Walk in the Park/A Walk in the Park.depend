@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1579020473 source:c:\compsci\a walk in the park\allegro.cpp
+1579129620 source:c:\compsci\a walk in the park\allegro.cpp
 	"declarations.h"
 
-1579013434 c:\compsci\a walk in the park\declarations.h
+1579129620 c:\compsci\a walk in the park\declarations.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -28,10 +28,10 @@
 1578770337 source:c:\compsci\a walk in the park\collision.cpp
 	"declarations.h"
 
-1578776596 source:c:\compsci\a walk in the park\life.cpp
+1579130056 source:c:\compsci\a walk in the park\life.cpp
 	"declarations.h"
 
-1579020233 source:c:\compsci\a walk in the park\main.cpp
+1579133171 source:c:\compsci\a walk in the park\main.cpp
 	"declarations.h"
 
 1578891334 source:c:\compsci\a walk in the park\obstacles.cpp

@@ -6,7 +6,7 @@ const int SCREEN_W = 1800;      // screen width
 const int SCREEN_H = 900;       // screen height
 
 #define BACKGROUND al_map_rgb(255, 0, 255)
-#define BUTTON al_map_rgb(26, 165, 35)
+#define INST al_map_rgb(60, 180, 75)
 
 ALLEGRO_DISPLAY *display;
 ALLEGRO_EVENT_QUEUE *event_queue;
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     // add event queue object
     event_queue = al_create_event_queue();
     // add timer object
-	timer = al_create_timer(1.0 / FPS);
+	timer = al_create_timer(1.0/ FPS);
 
     //Check allegro settings
     allegroSettings();
@@ -47,6 +47,7 @@ int main(int argc, char *argv[]){
     ALLEGRO_SAMPLE *endSound = nullptr;
     ALLEGRO_SAMPLE *loopSound = nullptr;
     ALLEGRO_SAMPLE *hitSound = nullptr;
+    ALLEGRO_SAMPLE *clickSound = nullptr;
 
     //Obstacles
     Obstacle fog, bag[3], log;
@@ -70,7 +71,7 @@ int main(int argc, char *argv[]){
     Life lives[3];
     Danger warning;
     int lifeNum = 3;
-    int counte = 11;
+    int counte = 6;
 
     bool gameOn = true;
     bool newBest = false;
@@ -81,18 +82,18 @@ int main(int argc, char *argv[]){
     startSound = al_load_sample("gameStart.wav");
     endSound = al_load_sample("gameDie.wav");
     hitSound = al_load_sample("gameHit.wav");
-    initializeSounds(startSound, endSound, loopSound, hitSound);
+    clickSound = al_load_sample("gameClick.wav");
+
+    initializeSounds(startSound, endSound, loopSound, hitSound, clickSound);
 
     loadBackgrounds(city, tree, ground);
     loadText();
-    imageSettings(bunny, fog, log, bag, arrows, letters);
+    imageSettings(bunny, fog, log, bag, arrows, letters, warning);
     loadButtons(button);
     initializeLives(lives);
 
     //Start the timer
  	al_start_timer(timer);
-
-    //highScore(high);
 
  	// Loop game sound
  	al_play_sample(loopSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
@@ -113,11 +114,12 @@ int main(int argc, char *argv[]){
                 obstaclePosition(fog, log, bag);
                 //Start game
                 if(buttonClicked(button[0]) == true || ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
-                    al_play_sample(startSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                    al_play_sample(startSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, nullptr);
                     gamePhase = 2;
                 }
                 //Exit game
                 if(buttonClicked(button[1]) == true){
+                    al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     al_destroy_display(display);
                     al_destroy_sample(loopSound);
                     printf("Exited successfully\n");
@@ -132,12 +134,11 @@ int main(int argc, char *argv[]){
                 //Make backgrounds move
                 moveBackgrounds(city, tree, ground);
 
-                //Print instructions in the first 60 seconds of the game
-                if(counter <= 100){
-                    gameInstruction(arrows, 700, 30);
-                }
-                if(counter > 100 && counter <= 300){
-                    gameInstruction(letters, 700, 30);
+                //Print instructions in the beginning of the game
+                if(counter <= 300){
+                    gameInstruction(arrows, 520, 30);
+                    al_draw_text(normalText, INST, 890, 72, ALLEGRO_ALIGN_CENTRE, "or ");
+                    gameInstruction(letters, 940, 30);
                 }
 
                 //Add character to the game
@@ -190,6 +191,7 @@ int main(int argc, char *argv[]){
                 counter++;
 
                 if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE || buttonClicked(button[2]) == true){
+                    al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     gamePhase = 3;
                 }
                 break;
@@ -203,6 +205,7 @@ int main(int argc, char *argv[]){
 
                 //Replay
                 if(buttonClicked(button[3]) == true){
+                    al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     lifeNum = 3;
                     counter = 0;
                     bunny.x = 100;
@@ -211,10 +214,12 @@ int main(int argc, char *argv[]){
                 }
                 //Continue
                 if(buttonClicked(button[0]) == true){
+                    al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     gamePhase = 2;
                 }
                 //Exit game
                 if(buttonClicked(button[1]) == true || ev.keyboard.keycode == ALLEGRO_KEY_ENTER){
+                    al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     storeHighscore(counter, high);
                     al_destroy_display(display);
                     al_destroy_sample(loopSound);
@@ -238,6 +243,7 @@ int main(int argc, char *argv[]){
                 al_get_next_event(event_queue, &ev);
                 //Replay
                 if(buttonClicked(button[3]) == true){
+                    al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                     lifeNum = 3;
                     counter = 0;
                     bunny.x = 100;
@@ -246,6 +252,7 @@ int main(int argc, char *argv[]){
                 }
                 //Exit game
                 if(ev.keyboard.keycode == ALLEGRO_KEY_ESCAPE || buttonClicked(button[1]) == true){
+                        al_play_sample(clickSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
                         storeHighscore(counter, high);
                         al_destroy_display(display);
                         al_destroy_sample(loopSound);

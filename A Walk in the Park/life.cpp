@@ -26,29 +26,22 @@ void printLives(Life heart[], int lifeN){
 }
 
 void isHit(Danger &warning, Character &bunny, int &counte, int &lifeNum, ALLEGRO_SAMPLE *hit){
-    if (counte == 1){
+    if (counte == 3){
         al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
     }
-    if (counte == 10){
+    if (counte == 5){
+        //al_play_sample(hit, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
         lifeNum--;
     }
-    if (counte >= 0 && counte <= 10){
+    if (counte >= 0 && counte <= 5){
         printDanger(warning, bunny.x + al_get_bitmap_width(bunny.image), bunny.y + 5);
     }
 }
 
 int printDanger(Danger &warning, int px, int py){
-
-    warning.image = al_load_bitmap("danger.png"); // Load our picture
-        if (!warning.image) {
-       		al_show_native_message_box(display, "Error", "Error",
-    			"danger.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
-    		return -1;
-        }
     warning.x = px;
     warning.y = py;
     al_draw_bitmap(warning.image, warning.x, warning.y, 0);
     al_flip_display();
-    //al_destroy_bitmap(warning.image);
     return 0;
 }

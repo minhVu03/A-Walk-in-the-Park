@@ -50,7 +50,7 @@ int allegroSettings() {
     return 0;
 }
 
-int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle bag[], Keys &arrows, Keys &letters){
+int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle bag[], Keys &arrows, Keys &letters, Danger &warning){
     //Load obstacles
     fog.image = al_load_bitmap("fogObstacle.png");
     log.image = al_load_bitmap("logObstacle.png");
@@ -98,6 +98,13 @@ int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle b
     			"letters.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     		return -1;
 	}
+
+	warning.image = al_load_bitmap("danger.png"); // Load our picture
+        if (!warning.image) {
+       		al_show_native_message_box(display, "Error", "Error",
+    			"danger.png", nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    		return -1;
+        }
 
 	return 0;
 }
@@ -161,38 +168,39 @@ int loadBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground){
     return 0;
 }
 
-int initializeSounds(ALLEGRO_SAMPLE *start, ALLEGRO_SAMPLE *endS, ALLEGRO_SAMPLE *loop, ALLEGRO_SAMPLE *hit){
+int initializeSounds(ALLEGRO_SAMPLE *start, ALLEGRO_SAMPLE *endS, ALLEGRO_SAMPLE *loop, ALLEGRO_SAMPLE *hit, ALLEGRO_SAMPLE *click){
 
-    al_reserve_samples(4);
+    al_reserve_samples(5);
 
-    //start = al_load_sample("gameStart.wav");
     if (!start){
     al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameStart",
     nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     return -1;
     }
 
-    //endS = al_load_sample("gameEnd.wav");
     if (!endS){
     al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameDie",
     nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     return -1;
     }
 
-    //loop = al_load_sample("gameLoop.wav");
     if (!loop){
     al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameLoop",
     nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     return -1;
     }
 
-    //hit = al_load_sample("gameHit.wav");
     if (!hit){
     al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameHit",
     nullptr, ALLEGRO_MESSAGEBOX_ERROR);
     return -1;
     }
 
+    if (!click){
+    al_show_native_message_box(display, "Error", "Error", "Failed to initialize gameClick",
+    nullptr, ALLEGRO_MESSAGEBOX_ERROR);
+    return -1;
+    }
 
     return 0;
 }

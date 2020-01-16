@@ -62,8 +62,8 @@ int allegroSettings();
 int loadBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
 int loadText();
 int moveBackgrounds(Backgrounds &city, Backgrounds &tree, Backgrounds &ground);
-int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle bag[], Keys &arrows, Keys &letters);
-int initializeSounds(ALLEGRO_SAMPLE *start, ALLEGRO_SAMPLE *endS, ALLEGRO_SAMPLE *loop, ALLEGRO_SAMPLE *hit);
+int imageSettings(Character &character, Obstacle &fog, Obstacle &log, Obstacle bag[], Keys &arrows, Keys &letters, Danger &warning);
+int initializeSounds(ALLEGRO_SAMPLE *start, ALLEGRO_SAMPLE *endS, ALLEGRO_SAMPLE *loop, ALLEGRO_SAMPLE *hit, ALLEGRO_SAMPLE *click);
 int gameInstruction(Keys instruction, int px, int py);
 //Character
 int moveCharacter(Character &bunny); //Not being used right now
